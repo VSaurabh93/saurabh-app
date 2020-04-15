@@ -3,30 +3,12 @@ addEventListener('fetch', event => {
 })
 
 
-// fetch(url).then((response) => {
-//   console.log("Entered")
-//   return response.json();
-// })
-// .then((data) => {
-//   console.log("pagal kutaa");
-//   //console.log(data);
-// });
-
-
-async function fetchRandomURL (url){
-   const response = await fetch(url);
-   console.log('bakar');
-    return response.json();
-}
-
-
 class ElementHandler {
   constructor(variant)
   {
     this.variant = variant;
   }
   element(element) {
-    // An incoming element, such as `div`
     switch(element.tagName)
     {
       case 'title' : 
@@ -56,10 +38,6 @@ class ElementHandler {
   }
 }
 
-// getRandom(max)
-// {
-//   return Math.floor(Math.random() * max)
-// }
 
 /**
  * Respond with hello worker text
@@ -68,9 +46,7 @@ class ElementHandler {
 async function handleRequest(request) {
 
   url= "https://cfw-takehome.developers.workers.dev/api/variants"
-  //response = fetchRandomURL(url);
   obj = await (await fetch(url)).json();
-  //console.log(obj["variants"][0]);
 
   const cookie = request.headers.get('cookie'); 
   if (cookie && cookie.includes(`variant=one`)) {
@@ -85,7 +61,7 @@ async function handleRequest(request) {
   }
   else
   {
-    let variant = Math.random() < 0.5 ? "one" : "two" // 50/50 split
+    let variant = Math.random() < 0.5 ? "one" : "two"
     let index = variant === "one" ? 0 : 1;
     let resp = await fetch(obj["variants"][index]);
     let elementHandler = new ElementHandler(variant);
@@ -93,8 +69,4 @@ async function handleRequest(request) {
     response.headers.append('Set-Cookie', `variant=${variant}; path=/`);
     return response;
   }
-  
-  //  return new Response(data, {
-  //   headers: { 'content-type': 'text/plain' },
-  // })
 }
