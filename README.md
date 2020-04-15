@@ -1,2 +1,2 @@
-# Cloudflare Internship Application: Full-Stack
+# Internship Application: Full-Stack
 
